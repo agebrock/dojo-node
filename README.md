@@ -6,12 +6,14 @@ use the rich framework components in your node environment.
 * tested from node 0.2.6 to 0.4
 
 ## Installation
+### NPM
+* npm install dojo-node
 
+
+### do it yourself
 * $ npm install htmlparser
 * $ git clone git@github.com:agebrock/dojo-node.git
 * $ cd dojo-node
-* $ git submodule init
-* $ git submodule update
 * node test/test.js
 
 
