@@ -96,7 +96,7 @@ dojo.declare(
 					totalCollapsedHeight += dojo._getMarginSize(child._wrapperWidget.domNode).h;
 				}
 			});
-			this._verticalSpace = mySize.h - totalCollapsedHeight - wrapperDomNodeMargin.h 
+			this._verticalSpace = mySize.h - totalCollapsedHeight - wrapperDomNodeMargin.h
 			 	- wrapperDomNodePadBorder.h - wrapperContainerNodeMargin.h - wrapperContainerNodePadBorder.h
 				- openPane._buttonWidget.getTitleHeight();
 
@@ -128,7 +128,7 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){	
+		addChild: function(/*dijit._Widget*/ child, /*Integer?*/ insertIndex){
 			if(this._started){
 				// Adding a child to a started Accordion is complicated because children have
 				// wrapper widgets.  Default code path (calling this.inherited()) would add
@@ -144,7 +144,7 @@ dojo.declare(
 				// Then stick the wrapper widget around the child widget
 				this._setupChild(child);
 
-				// Code below copied from StackContainer	
+				// Code below copied from StackContainer
 				dojo.publish(this.id+"-addChild", [child, insertIndex]);
 				this.layout();
 				if(!this.selectedChildWidget){
@@ -261,14 +261,14 @@ dojo.declare(
 
 				this._animation = new dojo.Animation({
 					node: newContents,
-						duration: this.duration,
+					duration: this.duration,
 					curve: [1, this._verticalSpace - animationHeightOverhead - 1],
 					onAnimate: function(value){
 						value = Math.floor(value);	// avoid fractional values
 						newContents.style.height = value + "px";
 						oldContents.style.height = (self._verticalSpace - animationHeightOverhead - value) + "px";
-						},
-						onEnd: function(){
+					},
+					onEnd: function(){
 						delete self._animation;
 						newContents.style.height = "auto";
 						oldWidget._wrapperWidget.containerNode.style.display = "none";
@@ -336,7 +336,7 @@ dojo.declare("dijit.layout._AccordionInnerContainer",
 		isContainer: true,
 		isLayoutContainer: true,
 
-		buildRendering: function(){			
+		buildRendering: function(){
 			// Builds a template like:
 			//	<div class=dijitAccordionInnerContainer>
 			//		Button

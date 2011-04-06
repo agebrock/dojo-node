@@ -11,7 +11,7 @@ dojo.require("dojo.store.Observable");
 			{id: 5, name: "five", prime: true}
 		]
 	}));
-	tests.register("dojo.tests.store.Observable", 
+	tests.register("dojo.tests.store.Observable",
 		[
 			function testGet(t){
 				t.is(store.get(1).name, "one");
@@ -34,10 +34,11 @@ dojo.require("dojo.store.Observable");
 				store.put(two); // should remove it from the array
 				t.is(results.length, 2);
 				expectedChanges.push({
-						previousIndex:0,
+						previousIndex: 0,
+						newIndex: -1,
 						object:{
-							id: 2, 
-							name: "two", 
+							id: 2,
+							name: "two",
 							even: true,
 							prime: false
 						}
@@ -47,10 +48,11 @@ dojo.require("dojo.store.Observable");
 				one.prime = true;
 				store.put(one); // should add it
 				expectedChanges.push({
+						previousIndex: -1,
 						"newIndex":2,
 						object:{
-							id: 1, 
-							name: "one", 
+							id: 1,
+							name: "one",
 							prime: true
 						}
 					});
@@ -65,6 +67,7 @@ dojo.require("dojo.store.Observable");
 				t.is(results.length, 4);
 				
 				expectedChanges.push({
+						previousIndex: -1,
 						"newIndex":3,
 						"object":{
 							id:7, name:"seven", prime:true
@@ -73,6 +76,7 @@ dojo.require("dojo.store.Observable");
 				store.remove(3);
 				expectedChanges.push({
 						"previousIndex":0,
+						newIndex: -1,
 						object: {id: 3, name: "three", prime: true}
 					});
 				t.is(results.length, 3);

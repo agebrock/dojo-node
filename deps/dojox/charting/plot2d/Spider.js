@@ -2,14 +2,11 @@ dojo.provide("dojox.charting.plot2d.Spider");
 
 dojo.experimental("dojox.charting.plot2d.Spider");
 
-dojo.require("dijit.Tooltip");
-
 dojo.require("dojox.charting.Element");
 dojo.require("dojox.charting.plot2d._PlotEvents");
 dojo.require("dojox.charting.axis2d.common");
 dojo.require("dojox.charting.plot2d.common");
 dojo.require("dojox.charting.scaler.primitive");
-dojo.require("dojox.charting.widget.Legend");
 
 dojo.require("dojox.lang.functional");
 dojo.require("dojox.lang.utils");
@@ -17,7 +14,6 @@ dojo.require("dojox.gfx");
 dojo.require("dojo.fx");
 dojo.require("dojo.fx.easing");
 dojo.require("dojox.gfx.fx");
-dojo.require("dojo.number");
 
 (function(){
 	var df = dojox.lang.functional, du = dojox.lang.utils,
@@ -37,22 +33,22 @@ dojo.require("dojo.number");
 			labelOffset:	-10,
 			labelStyle:		"default",	// default/rows/auto
 			htmlLabels:		true,		// use HTML to draw labels
-			startAngle:     -90,		// start angle for slices in degrees
-            divisions:       3,			// radius tick count
-            axisColor:       "",		// spider axis color
-            axisWidth:       0,			// spider axis stroke width
-            spiderColor:     "",		// spider web color
-            spiderWidth:     0,			// spider web stroke width
-            seriesWidth:     0,			// plot border with
-            seriesFillAlpha: 0.2,		// plot fill alpha
-			spiderOrigin:	 0.16,		
-			markerSize:  	 3,			// radius of plot vertex (px)
+			startAngle:		-90,		// start angle for slices in degrees
+			divisions:		 3,			// radius tick count
+			axisColor:		 "",		// spider axis color
+			axisWidth:		 0,			// spider axis stroke width
+			spiderColor:	 "",		// spider web color
+			spiderWidth:	 0,			// spider web stroke width
+			seriesWidth:	 0,			// plot border with
+			seriesFillAlpha: 0.2,		// plot fill alpha
+			spiderOrigin:	 0.16,
+			markerSize:		 3,			// radius of plot vertex (px)
 			spiderType:		 "polygon", //"circle"
 			animationType:	 dojo.fx.easing.backOut,
-			axisTickFont:	 	"",
+			axisTickFont:		"",
 			axisTickFontColor:	"",
-			axisFont:		 	"",
-			axisFontColor:	 	""
+			axisFont:			"",
+			axisFontColor:		""
 		},
 		optionalParams: {
 			radius:		0,
@@ -193,7 +189,7 @@ dojo.require("dojo.number");
 
 			// calculate the geometry
 			var o = this.opt, ta = t.axis,
-				rx = (dim.width  - offsets.l - offsets.r) / 2,
+				rx = (dim.width	 - offsets.l - offsets.r) / 2,
 				ry = (dim.height - offsets.t - offsets.b) / 2,
 				r  = Math.min(rx, ry),
 				axisTickFont = o.font || (ta.majorTick && ta.majorTick.font) || (ta.tick && ta.tick.font) || "normal normal normal 7pt Tahoma",
@@ -207,7 +203,7 @@ dojo.require("dojo.number");
 				seriesWidth = o.seriesWidth || (ta.stroke && ta.stroke.width) || 2,
 				asize = g.normalizedLength(g.splitFontString(axisFont).size),
 				startAngle = m._degToRad(o.startAngle),
-				start = startAngle, step, filteredRun, slices, labels, shift, labelR, 
+				start = startAngle, step, filteredRun, slices, labels, shift, labelR,
 				outerPoints, innerPoints, divisionPoints, divisionRadius, labelPoints,
 				ro = o.spiderOrigin, dv = o.divisions >= 3 ? o.divisions : 3, ms = o.markerSize,
 				spt = o.spiderType, at = o.animationType, lboffset = o.labelOffset < -10 ? o.labelOffset : -10,
@@ -295,7 +291,7 @@ dojo.require("dojo.number");
 				var point = labelPoints[j],
 					fontWidth = dojox.gfx._base._getTextBox(this.labelKey[j], {font: axisFont}).w || 0,
 					render = this.opt.htmlLabels && dojox.gfx.renderer != "vml" ? "html" : "gfx";
-					elem = da.createText[render](this.chart, labelGroup, (!dojo._isBodyLtr() && render == "html") ? (point.x + fontWidth - dim.width) : point.x, point.y, 
+					elem = da.createText[render](this.chart, labelGroup, (!dojo._isBodyLtr() && render == "html") ? (point.x + fontWidth - dim.width) : point.x, point.y,
 							"middle", this.labelKey[j], axisFont, axisFontColor);
 				if (this.opt.htmlLabels) {
 					this.htmlElements.push(elem);
@@ -325,7 +321,7 @@ dojo.require("dojo.number");
 			//text
 			var textGroup = s.createGroup(), len = this._getObjectLength(this.datas), k = 0;
 			for(var key in this.datas){
-				var data = this.datas[key], min = data.min, max = data.max, distance = max - min, 
+				var data = this.datas[key], min = data.min, max = data.max, distance = max - min,
 					end = start + 2 * Math.PI * k / len;
 				for (var i = 0; i < dv; i++) {
 					var text = min + distance*i/(dv-1), point = this._getCoordinate(circle, r*(ro + (1-ro)*i/(dv-1)), end);
@@ -334,7 +330,7 @@ dojo.require("dojo.number");
 						render = this.opt.htmlLabels && dojox.gfx.renderer != "vml" ? "html" : "gfx";
 					if (this.opt.htmlLabels) {
 						this.htmlElements.push(da.createText[render]
-							(this.chart, textGroup, (!dojo._isBodyLtr() && render == "html") ? (point.x + fontWidth - dim.width) : point.x, point.y, 
+							(this.chart, textGroup, (!dojo._isBodyLtr() && render == "html") ? (point.x + fontWidth - dim.width) : point.x, point.y,
 								"start", text, axisTickFont, axisTickFontColor));
 					}
 				}
@@ -372,28 +368,28 @@ dojo.require("dojo.number");
 					
 					var po = {
 						element: "spider_poly",
-						index:   i,
-						id:	 	 "spider_poly_"+serieEntry.name,
-						run:     serieEntry,
-						plot:    this,
-						shape:   cs.poly,
+						index:	 i,
+						id:		 "spider_poly_"+serieEntry.name,
+						run:	 serieEntry,
+						plot:	 this,
+						shape:	 cs.poly,
 						parent:	 ts,
 						brect:	 polygonBoundRect,
-						cx:      circle.cx,
-						cy:      circle.cy,
-						cr:      r,
+						cx:		 circle.cx,
+						cy:		 circle.cy,
+						cr:		 r,
 						f:		 f,
-						s: 		 s
+						s:		 s
 					};
 					this._connectEvents(po);
 					
 					var so = {
 						element: "spider_plot",
-						index:   i,
-						id:	 	 "spider_plot_"+serieEntry.name,
-						run:     serieEntry,
-						plot:    this,
-						shape:   serieEntry.group
+						index:	 i,
+						id:		 "spider_plot_"+serieEntry.name,
+						run:	 serieEntry,
+						plot:	 this,
+						shape:	 serieEntry.group
 					};
 					this._connectEvents(so);
 					
@@ -401,15 +397,15 @@ dojo.require("dojo.number");
 						var shape = c.getShape(),
 							co = {
 								element: "spider_circle",
-								index:   i,
-								id:	 	 "spider_circle_"+serieEntry.name+i,
-								run:     serieEntry,
-								plot:    this,
-								shape:   c,
+								index:	 i,
+								id:		 "spider_circle_"+serieEntry.name+i,
+								run:	 serieEntry,
+								plot:	 this,
+								shape:	 c,
 								parent:	 ts,
 								tdata:	 tipData[i],
-								cx:      seriePoints[i].x,
-								cy:      seriePoints[i].y,
+								cx:		 seriePoints[i].x,
+								cy:		 seriePoints[i].y,
 								f:		 f,
 								s:		 s
 							};
@@ -429,49 +425,49 @@ dojo.require("dojo.number");
 			}
 			
 			var anims = dojo.map(sps, function(np, j){
-                // create animation
+				// create animation
 				var sp = osps[j],
-                	anim = new dojo._Animation({
-                    duration: 1000,
-                    easing:   at,
-                    curve:    [sp.y, np.y]
-                });
+					anim = new dojo._Animation({
+					duration: 1000,
+					easing:	  at,
+					curve:	  [sp.y, np.y]
+				});
 				var spl = spoly, sc = scircle[j];
-                dojo.connect(anim, "onAnimate", function(y){
-                    //apply poly
+				dojo.connect(anim, "onAnimate", function(y){
+					//apply poly
 					var pshape = spl.getShape();
 					pshape.points[j].y = y;
-                    spl.setShape(pshape);
+					spl.setShape(pshape);
 					//apply circle
 					var cshape = sc.getShape();
 					cshape.cy = y;
 					sc.setShape(cshape);
-                });
+				});
 				return anim;
-            });
+			});
 			
 			var anims1 = dojo.map(sps, function(np, j){
-                // create animation
+				// create animation
 				var sp = osps[j],
-                	anim = new dojo._Animation({
-                    duration: 1000,
-                    easing:   at,
-                    curve:    [sp.x, np.x]
-                });
+					anim = new dojo._Animation({
+					duration: 1000,
+					easing:	  at,
+					curve:	  [sp.x, np.x]
+				});
 				var spl = spoly, sc = scircle[j];
-                dojo.connect(anim, "onAnimate", function(x){
-                    //apply poly
+				dojo.connect(anim, "onAnimate", function(x){
+					//apply poly
 					var pshape = spl.getShape();
 					pshape.points[j].x = x;
-                    spl.setShape(pshape);
+					spl.setShape(pshape);
 					//apply circle
 					var cshape = sc.getShape();
 					cshape.cx = x;
 					sc.setShape(cshape);
-                });
+				});
 				return anim;
-            });
-            var masterAnimation = dojo.fx.combine(anims.concat(anims1)); //dojo.fx.chain(anims);
+			});
+			var masterAnimation = dojo.fx.combine(anims.concat(anims1)); //dojo.fx.chain(anims);
 			masterAnimation.play();
 			return {group :ts, poly: spoly, circles: scircle};
 		},
@@ -498,16 +494,16 @@ dojo.require("dojo.number");
 						end:   transColor(color)
 					};
 				}
-				var start = a.color.start, end = a.color.end; 
+				var start = a.color.start, end = a.color.end;
 				if(o.type == "onmouseout"){
 					// swap colors
 					var t = start; start = end; end = t;
 				}
 				a.anim = dojox.gfx.fx.animateFill({
-					shape:    o.shape,
+					shape:	  o.shape,
 					duration: 800,
-					easing:   dojo.fx.easing.backOut,
-					color:    {start: start, end: end}
+					easing:	  dojo.fx.easing.backOut,
+					color:	  {start: start, end: end}
 				});
 				a.anim.play();
 			}else if(o.element == "spider_circle"){
@@ -529,19 +525,22 @@ dojo.require("dojo.number");
 					aroundRect.height = Math.ceil(aroundRect.height);
 					this.aroundRect = aroundRect;
 					var position = ["after", "before"];
-					dijit.showTooltip(o.tdata.sname + "<br/>" + o.tdata.key + "<br/>" + o.tdata.data, this.aroundRect, position);
+					if(dijit && dijit.Tooltip){
+						dijit.showTooltip(o.tdata.sname + "<br/>" + o.tdata.key + "<br/>" + o.tdata.data, this.aroundRect, position);
+					}
 				}else{
 					init  = dojox.gfx.matrix.scaleAt(defaultScale, o.cx, o.cy);
 					scale = 1/defaultScale;
-					//hide tooltip
-					this.aroundRect && dijit.hideTooltip(this.aroundRect);
+					if(dijit && dijit.Tooltip){
+						this.aroundRect && dijit.hideTooltip(this.aroundRect);
+					}
 				}
 				var cs = o.shape.getShape(),
 					init = m.scaleAt(defaultScale, cs.cx, cs.cy),
 					kwArgs = {
 						shape: o.shape,
 						duration: 200,
-						easing:   dojo.fx.easing.backOut,
+						easing:	  dojo.fx.easing.backOut,
 						transform: [
 							{name: "scaleAt", start: [1, cs.cx, cs.cy], end: [scale, cs.cx, cs.cy]},
 							init
@@ -550,7 +549,7 @@ dojo.require("dojo.number");
 				a.anim = dojox.gfx.fx.animateTransform(kwArgs);
 				a.anim.play();
 			}else if(o.element == "spider_plot"){
-				//dojo gfx function "moveToFront" not work in IE 
+				//dojo gfx function "moveToFront" not work in IE
 				if (o.type == "onmouseover" && !dojo.isIE) {
 					o.shape.moveToFront();
 				}
@@ -613,7 +612,7 @@ dojo.require("dojo.number");
 
 		// utilities
 		_getLabel: function(number){
-			return this.opt.fixed ? dojo.number.format(number, {places: this.opt.precision}) : number.toString();
+			return dc.getLabel(number, this.opt.fixed, this.opt.precision);
 		}
 	});
 	
@@ -636,5 +635,6 @@ dojo.require("dojo.number");
 		var color = dojox.color.fromHsl(x);
 		color.a = 0.7;
 		return color;
-	};
+	}
+	
 })();

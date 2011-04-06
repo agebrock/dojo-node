@@ -135,7 +135,7 @@ dojo.declare("dojox.charting.Theme", null, {
 		if(kwArgs.markerThemes && kwArgs.markerThemes.length){
 			this.markerThemes = kwArgs.markerThemes.slice(0);
 		}
-		this.markers = dojo.delegate(dojox.charting.Theme.defaultMarkers, kwArgs.markers);
+		this.markers = kwArgs.markers ? dojo.clone(kwArgs.markers) : dojo.delegate(dojox.charting.Theme.defaultMarkers);
 
 		// set flags
 		this.noGradConv = kwArgs.noGradConv;
@@ -486,7 +486,7 @@ dojo.mixin(dojox.charting.Theme, {
 			titleGap:		20,
 			titlePos:		"top",
 			titleFont:      "normal normal bold 14pt Tahoma",	// labels on axis
-			titleFontColor: "#333"	
+			titleFontColor: "#333"
 		},
 		plotarea:{
 			stroke: null,

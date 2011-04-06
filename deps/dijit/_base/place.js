@@ -153,9 +153,14 @@ dijit._place = function(/*DomNode*/ node, choices, layoutNode, /*Object*/ around
 	// And then position the node.   Do this last, after the layoutNode() above
 	// has sized the node, due to browser quirks when the viewport is scrolled
 	// (specifically that a Tooltip will shrink to fit as though the window was
-	// scrolled to the left)
-	node.style.left = best.x + "px";
-	node.style.top = best.y + "px";
+	// scrolled to the left).
+	//
+	// In RTL mode, set style.right rather than style.left so in the common case,
+	// window resizes move the popup along with the aroundNode.
+	var l = dojo._isBodyLtr(),
+		s = node.style;
+	s.top = best.y + "px";
+	s[l ? "left" : "right"] = (l ? best.x : view.w - best.x - best.w) + "px";
 	
 	return best;
 }
@@ -203,11 +208,7 @@ dijit.placeOnScreenAroundNode = function(
 
 	// get coordinates of aroundNode
 	aroundNode = dojo.byId(aroundNode);
-	var oldDisplay = aroundNode.style.display;
-	aroundNode.style.display="";
-	// #3172: use the slightly tighter border box instead of marginBox
 	var aroundNodePos = dojo.position(aroundNode, true);
-	aroundNode.style.display=oldDisplay;
 
 	// place the node around the calculated rectangle
 	return dijit._placeOnScreenAroundRect(node,

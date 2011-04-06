@@ -178,7 +178,7 @@ dijit.popup = {
 			around = args.around,
 			id = (args.around && args.around.id) ? (args.around.id+"_dropdown") : ("popup_"+this._idGen++);
 
-		// If we are opening a new popup that isn't a child of a currently opened popup, then 
+		// If we are opening a new popup that isn't a child of a currently opened popup, then
 		// close currently opened popup(s).   This should happen automatically when the old popups
 		// gets the _onBlur() event, except that the _onBlur() event isn't reliable on IE, see [22198].
 		while(stack.length && (!args.parent || !dojo.isDescendant(args.parent.domNode, stack[stack.length-1].widget.domNode))){
@@ -311,7 +311,7 @@ dijit._frames = new function(){
 			iframe = queue.pop();
 			iframe.style.display="";
 		}else{
-			if(dojo.isIE){
+			if(dojo.isIE < 9){
 				var burl = dojo.config["dojoBlankHtmlUrl"] || (dojo.moduleUrl("dojo", "resources/blank.html")+"") || "javascript:\"\"";
 				var html="<iframe src='" + burl + "'"
 					+ " style='position: absolute; left: 0px; top: 0px;"
@@ -388,30 +388,6 @@ dojo.extend(dijit.BackgroundIframe, {
 		}
 	}
 });
-
-
-// Resizing browser window displaces the popup from the around node, and perhaps
-// even moves the around node off the screen.  Can either close the drop down, or reposition it.
-// Unclear which action is better -- repositioning seems better except for the problem
-// when the around node is moved off the screen -- but for now I just close the
-// drop down.   Repositioning would be difficult to implement because widgets like
-// ComboBox have special code for sizing the drop down depending on available real estate.
-(function(){
-	var oldSize = {};
-	dojo.addOnLoad(function(){
-		oldSize = dojo.window.getBox();
-});
-	dojo.connect(window, "onresize", function(){
-		var newSize = dojo.window.getBox();
-		// if() guards against spurious IE resize events
-		if(newSize.h != oldSize.h || newSize.w != oldSize.w){
-			oldSize = newSize;
-			dijit.popup.close();
-		}
-	});
-})();
-
-dojo.connect(document, dojo.isMozilla ? "DOMMouseScroll" : "onmousewheel", dojo.hitch(dijit.popup, "close", null));
 
 return dijit.popup;
 });

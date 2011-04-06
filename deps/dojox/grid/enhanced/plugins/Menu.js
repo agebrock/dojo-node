@@ -6,8 +6,8 @@ dojo.declare("dojox.grid.enhanced.plugins.Menu", dojox.grid.enhanced._Plugin, {
 	// summary:
 	//		 Provides context menu support, including header menu, row menu, cell menu and selected region menu
 	// example:
-	//		<div dojoType="dojox.grid.EnhancedGrid" 
-	//			plugins="{menus:{headerMenu:"headerMenuId", rowMenu:"rowMenuId", cellMenu:"cellMenuId", 
+	//		<div dojoType="dojox.grid.EnhancedGrid"
+	//			plugins="{menus:{headerMenu:"headerMenuId", rowMenu:"rowMenuId", cellMenu:"cellMenuId",
 	//							   selectedRegionMenu:"selectedRegionMenuId"}}" ...>
 	//		</div>
 	
@@ -37,7 +37,12 @@ dojo.declare("dojox.grid.enhanced.plugins.Menu", dojox.grid.enhanced._Plugin, {
 	_initMenu: function(/*String*/menuType, /*String | Widget(dijit.Menu)*/menu){
 		var g = this.grid;
 		if(!g[menuType]){//in case already created in _Grid.postCreate()
-			g.set(menuType, this._getMenuWidget(menu));
+			var m = this._getMenuWidget(menu);
+			if(!m){return;}
+			g.set(menuType, m);
+			if(menuType != "headerMenu"){
+				m._scheduleOpen = function(){return;};
+			}
 		}
 	},
 	_getMenuWidget: function(/*String|Widget(dijit.Menu)*/menu){
@@ -66,7 +71,7 @@ dojo.declare("dojox.grid.enhanced.plugins.Menu", dojox.grid.enhanced._Plugin, {
 		var g = this.grid, n = g.domNode;
 		if(!menu || !(menu instanceof dijit.Menu)){
 			console.warn(menuType, " of Grid ", g.id, " is not existed!");
-			return; 
+			return;
 		}
 		if(g[menuType]){
 			g[menuType].unBindDomNode(n);
@@ -79,7 +84,7 @@ dojo.declare("dojox.grid.enhanced.plugins.Menu", dojox.grid.enhanced._Plugin, {
 		//		Show appropriate context menu
 		//		Fired from dojox.grid.enhanced._Events.onRowContextMenu, 'this' scope - Grid
 		//		TODO: test Shift-F10
-		var inSelectedRegion = (e.cellNode && dojo.hasClass(e.cellNode, 'dojoxGridRowSelected') || 
+		var inSelectedRegion = (e.cellNode && dojo.hasClass(e.cellNode, 'dojoxGridRowSelected') ||
 			e.rowNode && (dojo.hasClass(e.rowNode, 'dojoxGridRowSelected') || dojo.hasClass(e.rowNode, 'dojoxGridRowbarSelected')));
 		
 		if(inSelectedRegion && this.selectedRegionMenu){
@@ -87,7 +92,7 @@ dojo.declare("dojox.grid.enhanced.plugins.Menu", dojox.grid.enhanced._Plugin, {
 			return;
 		}
 		
-		var info = {target: e.target, coords: "pageX" in e ? {x: e.pageX, y: e.pageY } : null};
+		var info = {target: e.target, coords: e.keyCode !== dojo.keys.F10 && "pageX" in e ? {x: e.pageX, y: e.pageY } : null};
 		if(this.rowMenu && (this.selection.isSelected(e.rowIndex) || e.rowNode && dojo.hasClass(e.rowNode, 'dojoxGridRowbar'))){
 			this.rowMenu._openMyself(info);
 			dojo.stopEvent(e);
@@ -104,6 +109,7 @@ dojo.declare("dojox.grid.enhanced.plugins.Menu", dojox.grid.enhanced._Plugin, {
 		//		Destroy all resources.
 		//		_Grid.destroy() will unbind headerMenu
 		var g = this.grid;
+		if(g.headerMenu){g.headerMenu.unBindDomNode(g.viewsHeaderNode);}
 		if(g.rowMenu){g.rowMenu.unBindDomNode(g.domNode);}
 		if(g.cellMenu){g.cellMenu.unBindDomNode(g.domNode);}
 		if(g.selectedRegionMenu){g.selectedRegionMenu.destroy();}

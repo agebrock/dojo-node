@@ -2,6 +2,7 @@ dojo.provide("tests._base.Deferred");
 
 var delay = function(ms){
 	var d = new dojo.Deferred();
+	ms = ms || 20;
 	setTimeout(function(){
 		d.progress(0.5);
 	},ms/2);
@@ -10,7 +11,7 @@ var delay = function(ms){
 	},ms);
 	return d.promise;
 };
-doh.register("tests._base.Deferred", 
+doh.register("tests._base.Deferred",
 	[
 
 		function callback(t){

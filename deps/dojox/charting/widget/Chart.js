@@ -40,7 +40,7 @@ dojo.require("dojox.lang.functional");
 			// build the chart
 			n.innerHTML = "";
 			var c = this.chart = new dc.Chart(n, {
-				margins: this.margins, 
+				margins: this.margins,
 				stroke:  this.stroke,
 				fill:    this.fill
 			});
@@ -68,15 +68,15 @@ dojo.require("dojox.lang.functional");
 					c.addSeries(series.name, [0], series.kwArgs);
 					var kw = {};
 					du.updateWithPattern(
-						kw, 
-						series.kwArgs, 
+						kw,
+						series.kwArgs,
 						{
-							"query": "", 
-							"queryOptions": null, 
-							"start": 0, 
-							"count": 1 //, 
+							"query": "",
+							"queryOptions": null,
+							"start": 0,
+							"count": 1 //,
 							// "sort": []
-						}, 
+						},
 						true
 					);
 					if(series.kwArgs.sort){
@@ -111,11 +111,15 @@ dojo.require("dojox.lang.functional");
 			this.inherited(arguments);
 		},
 		resize: function(box){
-			// summary: resize the widget
-			if(box.w > 0 && box.h > 0){
-				dojo.marginBox(this.domNode, box);
-				this.chart.resize();
-			}
+			//	summary:
+			//		Resize the widget.
+			//	description:
+			//		Resize the domNode and the widget surface to the dimensions of a box of the following form:
+			//			`{ l: 50, t: 200, w: 300: h: 150 }`
+			//		If no box is provided, resize the surface to the marginBox of the domNode.
+			//	box:
+			//		If passed, denotes the new size of the widget.
+			this.chart.resize(box);
 		}
 	});
 	
@@ -146,7 +150,7 @@ dojo.require("dojox.lang.functional");
 				type = dojox._scopeName + ".charting.axis2d." + type;
 			}
 			var axis = eval("(" + type + ")");
-			if(axis){ kw.type = axis; } 
+			if(axis){ kw.type = axis; }
 		}else{
 			type = dojox._scopeName + ".charting.axis2d.Default";
 		}
@@ -176,7 +180,7 @@ dojo.require("dojox.lang.functional");
 				type = dojox._scopeName + ".charting.plot2d." + type;
 			}
 			var plot = eval("(" + type + ")");
-			if(plot){ kw.type = plot; } 
+			if(plot){ kw.type = plot; }
 		}else{
 			type = dojox._scopeName + ".charting.plot2d.Default";
 		}

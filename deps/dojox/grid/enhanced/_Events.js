@@ -3,9 +3,9 @@ dojo.provide("dojox.grid.enhanced._Events");
 dojo.declare("dojox.grid.enhanced._Events", null, {
 	// summary:
 	//		Overwrite some default events of DataGrid
-	//		
-	// description: 
-	//		Methods are copied or replaced for overwriting, this might be refined once 
+	//
+	// description:
+	//		Methods are copied or replaced for overwriting, this might be refined once
 	//		an overall plugin architecture is set up for DataGrid.
 
 	//_events: Object
@@ -22,7 +22,7 @@ dojo.declare("dojox.grid.enhanced._Events", null, {
 	
 	// rowActiveClass: String
 	//		css class to apply to grid rows when activated(mouse down)
-	rowActiveClass: 'dojoxGridRowActive',		
+	rowActiveClass: 'dojoxGridRowActive',
 
 	constructor: function(inGrid){
 		//get the default Grid events
@@ -64,6 +64,11 @@ dojo.declare("dojox.grid.enhanced._Events", null, {
 				if(dojo._isBodyLtr()){ offset *= -1; }
 				focus.currentArea().move(0, offset, e);
 				break;
+			case dk.F10:
+				if(this.menus && e.shiftKey){
+					this.onRowContextMenu(e);
+				}
+				break;
 			default:
 				focus.currentArea().keydown(e);
 				break;
@@ -72,13 +77,13 @@ dojo.declare("dojox.grid.enhanced._Events", null, {
 	//TODO - make the following events more reasonalble - e.g. more accurate conditions
 	//events for row selectors
 	domouseup: function(e){
-		if(e.cellNode){ 
-			this.onMouseUp(e); 
+		if(e.cellNode){
+			this.onMouseUp(e);
 		}else{
 			this.onRowSelectorMouseUp(e);
 		}
 	},
-	domousedown: function(e){		
+	domousedown: function(e){
 		if(!e.cellNode){
 			this.onRowSelectorMouseDown(e);
 		}
@@ -122,14 +127,14 @@ dojo.declare("dojox.grid.enhanced._Events", null, {
 		}
 		//invoke dojox.grid._Events.onCellDblClick()
 		this._events.onCellDblClick.call(this, e);
-		//now focus.setFocusCell need isEditing info, so call it after that is set. 
+		//now focus.setFocusCell need isEditing info, so call it after that is set.
 		this.focus.setFocusCell(e.cell, e.rowIndex);
 	},
 	onRowClick: function(e){
 		// summary:
 		//		Overwritten, see dojox.grid._Events.onRowClick()
 		this.edit.rowClick(e);
-		if(!this.indirectSelection){
+		if(e.cell && !e.cell.isRowSelector && (!this.rowSelectCell || !this.rowSelectCell.disabled(e.rowIndex))){
 			this.selection.clickSelectEvent(e);
 		}
 	},
@@ -144,12 +149,12 @@ dojo.declare("dojox.grid.enhanced._Events", null, {
 		// summary:
 		//		New - Event fired when a selected region context menu is accessed via mouse right click.
 		// e: Event
-		//		Decorated event object which contains reference to grid and info of selected 
+		//		Decorated event object which contains reference to grid and info of selected
 		//		regions(selection type - row|column, selected index - [...])
 		if(this.selectedRegionMenu){
 			this.selectedRegionMenu._openMyself({
 				target: e.target,
-				coords: "pageX" in e ? {
+				coords: e.keyCode !== dojo.keys.F10 && "pageX" in e ? {
 					x: e.pageX,
 					y: e.pageY
 				} : null
@@ -170,7 +175,7 @@ dojo.declare("dojox.grid.enhanced._Events", null, {
 		//		Overwritten, see dojox.grid._Events.onHeaderCellMouseDown()
 		if(e.cellNode){//TBD - apply to selection region for nested sorting?
 			dojo.addClass(e.cellNode, this.headerCellActiveClass);
-		} 
+		}
 	},
 	onHeaderCellMouseUp: function(e){
 		// summary:

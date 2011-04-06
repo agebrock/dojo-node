@@ -41,7 +41,7 @@ dojo.declare("dojo.io.iframe.__ioArgs", dojo.__IoArgs, {
 =====*/
 
 dojo.io.iframe = {
-	// summary: 
+	// summary:
 	//		Sends an Ajax I/O call using and Iframe (for instance, to upload files)
 	
 	create: function(/*String*/fname, /*String*/onloadstr, /*String?*/uri){
@@ -71,27 +71,12 @@ dojo.io.iframe = {
 			}
 			turi = (dojo.config["dojoBlankHtmlUrl"]||dojo.moduleUrl("dojo", "resources/blank.html"));
 		}
-		var ifrstr = dojo.isIE ? '<iframe name="'+fname+'" src="'+turi+'" onload="'+onloadstr+'">' : 'iframe';
-		cframe = dojo.doc.createElement(ifrstr);
-		with(cframe){
-			name = fname;
-			setAttribute("name", fname);
-			id = fname;
-		}
-		dojo.body().appendChild(cframe);
-		window[fname] = cframe;
-	
-		with(cframe.style){
-				position = "absolute";
-			left = top = "1px";
-			height = width = "1px";
-			visibility = "hidden";
-		}
+		var cframe = dojo.place(
+			'<iframe id="'+fname+'" name="'+fname+'" src="'+turi+'" onload="'+onloadstr+
+			'" style="position: absolute; left: 1px; top: 1px; height: 1px; width: 1px; visibility: hidden">',
+		dojo.body());
 
-		if(!dojo.isIE){
-			this.setSrc(cframe, turi, true);
-			cframe.onload = new Function(onloadstr);
-		}
+		window[fname] = cframe;
 
 		return cframe;
 	},
@@ -128,8 +113,8 @@ dojo.io.iframe = {
 					idoc.location.replace(src);
 				}
 			}
-		}catch(e){ 
-			console.log("dojo.io.iframe.setSrc: ", e); 
+		}catch(e){
+			console.log("dojo.io.iframe.setSrc: ", e);
 		}
 	},
 
@@ -138,7 +123,7 @@ dojo.io.iframe = {
 		var doc = iframeNode.contentDocument || // W3
 			(
 				(
-					(iframeNode.name) && (iframeNode.document) && 
+					(iframeNode.name) && (iframeNode.document) &&
 					(dojo.doc.getElementsByTagName("iframe")[iframeNode.name].contentWindow) &&
 					(dojo.doc.getElementsByTagName("iframe")[iframeNode.name].contentWindow.document)
 				)
@@ -151,7 +136,7 @@ dojo.io.iframe = {
 	},
 
 	send: function(/*dojo.io.iframe.__ioArgs*/args){
-		//summary: 
+		//summary:
 		//		Function that sends the request to the server.
 		//		This transport can only process one send() request at a time, so if send() is called
 		//multiple times, it will queue up the calls and only process one at a time.
@@ -181,8 +166,8 @@ dojo.io.iframe = {
 					if(handleAs != "html"){
 						if(handleAs == "xml"){
 							//	FF, Saf 3+ and Opera all seem to be fine with ifd being xml.  We have to
-							//	do it manually for IE.  Refs #6334.
-							if(dojo.isIE){
+							//	do it manually for IE6-8.  Refs #6334.
+							if(dojo.isIE < 9 || (dojo.isIE && dojo.isQuirks)){
 								dojo.query("a", dii._frame.contentWindow.document.documentElement).orphan();
 								var xmlText=(dii._frame.contentWindow.document).documentElement.innerText;
 								xmlText=xmlText.replace(/>\s+</g, "><");
@@ -204,7 +189,7 @@ dojo.io.iframe = {
 				}catch(e){
 					value = e;
 				}finally{
-					ioArgs._callNext();				
+					ioArgs._callNext();
 				}
 				return value;
 			},
@@ -283,16 +268,7 @@ dojo.io.iframe = {
 					// if we have things in content, we need to add them to the form
 					// before submission
 					var pHandler = function(name, value) {
-						var tn;
-						if(dojo.isIE){
-							tn = dojo.doc.createElement("<input type='hidden' name='"+name+"'>");
-						}else{
-							tn = dojo.doc.createElement("input");
-							tn.type = "hidden";
-							tn.name = name;
-						}
-						tn.value = value;
-						fn.appendChild(tn);
+						dojo.create("input", {type: "hidden", name: name, value: value}, fn);
 						ioArgs._contentToClean.push(name);
 					};
 					for(var x in content){
@@ -311,7 +287,7 @@ dojo.io.iframe = {
 						}
 					}
 				}
-				//IE requires going through getAttributeNode instead of just getAttribute in some form cases, 
+				//IE requires going through getAttributeNode instead of just getAttribute in some form cases,
 				//so use it for all.  See #2844
 				var actnNode = fn.getAttributeNode("action");
 				var mthdNode = fn.getAttributeNode("method");

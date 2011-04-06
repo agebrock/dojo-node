@@ -764,7 +764,7 @@
 				
 				<label for="filteringSelect3">Disabled w/value: </label>
 				<input id="filteringSelect3" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="
-					store: stateStore, searchAttr:'name', disabled:true, value:'California'
+					store: stateStore, searchAttr:'name', disabled:true, value:'CA'
 				">
 
 			</div>
@@ -785,7 +785,7 @@ tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo &#8234;conseq
 
 				<br>
 				<p>Disabled:</p>
-				<textarea data-dojo-type="dijit.form.Textarea" name="areText2" disabled>This text
+				<textarea data-dojo-type="dijit.form.Textarea" data-dojo-props="disabled: true">This text
 				area is disabled and you shouldn't be able to type in &#8234;it.&#8236;
 				</textarea>
 
@@ -793,7 +793,7 @@ tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo &#8234;conseq
 				<h2>dijit.form.SimpleTextarea</h2>
 				<p></p>
 				<p>Enabled:</p>
-				<textarea data-dojo-type="dijit.form.SimpleTextarea" name="areText">This text area has a constant height and displays a scrollbar when &#8234;necessary.&#8236;
+				<textarea data-dojo-type="dijit.form.SimpleTextarea">This text area has a constant height and displays a scrollbar when &#8234;necessary.&#8236;
 
 Lorem ipsum dolor sit &#8234;amet,&#8236;
 consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
@@ -806,7 +806,7 @@ nulla &#8234;facilisi.&#8236;
 				</textarea>
 
 				<p>Disabled:</p>
-				<textarea data-dojo-type="dijit.form.SimpleTextarea" name="areText2" disabled>Lorem ipsum dolor sit &#8234;amet,&#8236;
+				<textarea data-dojo-type="dijit.form.SimpleTextarea" data-dojo-props="disabled: true">Lorem ipsum dolor sit &#8234;amet,&#8236;
 				consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
 				dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci
 				tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis
@@ -1085,9 +1085,10 @@ nulla &#8234;facilisi.&#8236;
 	</div><!-- end of BorderContainer -->
 
 	<!-- dialog in body -->
-	<div id="dialog1" data-dojo-type="dijit.Dialog" style="display:none; width: 400px;" data-dojo-props="
+	<div id="dialog1" data-dojo-type="dijit.Dialog" style="display:none;" data-dojo-props="
 		title:'Floating Modal Dialog from href',
 		href:'../tests/layout/getResponse.php?delay=3000&amp;messId=3',
+		style: 'width: 400px;',
 		refreshOnShow:true
 	"></div>
 	<div id="dialogAB" data-dojo-type="dijit.Dialog" data-dojo-props="title:'Floating Modal Dialog'" style="display:none;">

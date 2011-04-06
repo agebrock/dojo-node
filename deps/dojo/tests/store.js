@@ -1,7 +1,4 @@
-dojo.provide("dojo.tests.store");
+define("dojo/tests/store", ["dojo", "dojo/tests/store/Memory", "dojo/tests/store/DataStore", "dojo/tests/store/Observable", "dojo/tests/store/Cache"].concat(dojo.isBrowser ? ["dojo/tests/store/JsonRest"] : []), function(dojo) {
+});
 
-dojo.require("dojo.tests.store.Cache");
-dojo.require("dojo.tests.store.DataStore");
-dojo.require("dojo.tests.store.JsonRest");
-dojo.require("dojo.tests.store.Memory");
-dojo.require("dojo.tests.store.Observable");
+

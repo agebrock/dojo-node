@@ -28,15 +28,15 @@ var gridCssCls = "", headerCssCls = "", cellCssCls = "", rowCssCls = "",
 			].join('');
 			this._removedCriterias = [];
 			this._rules = [];
-			(this.statusPane = new dojox.grid.enhanced.plugins.filter.FilterStatusPane()).startup();
-			(this._dlg = new dijit.TooltipDialog({
+			this.statusPane = new dojox.grid.enhanced.plugins.filter.FilterStatusPane();
+			this._dlg = new dijit.TooltipDialog({
 				"class": "dojoxGridFStatusTipDialog",
-				content: this.statusPane.domNode,
+				content: this.statusPane,
 				autofocus: false,
 				onMouseLeave: dojo.hitch(this,function(){
 					this.closeDialog();
 				})
-			})).startup();
+			});
 			this._dlg.connect(this._dlg.domNode,"click", dojo.hitch(this, this._modifyFilter));
 		},
 		destroy: function(){
@@ -50,8 +50,8 @@ var gridCssCls = "", headerCssCls = "", cellCssCls = "", rowCssCls = "",
 			this._rules = [];
 			this._updateStatus(columnIdx);
 			dijit.popup.open({
-				popup: this._dlg, 
-				parent: this.plugin.filterBar, 
+				popup: this._dlg,
+				parent: this.plugin.filterBar,
 				x:pos_x - 12,
 				y:pos_y - 3
 			});
@@ -94,7 +94,7 @@ var gridCssCls = "", headerCssCls = "", cellCssCls = "", rowCssCls = "",
 			sp.statusDetailNode.innerHTML = res;
 			this._addButtonForRules();
 		},
-		_createStatusDetail: function(){ 
+		_createStatusDetail: function(){
 			return this._statusHeader + dojo.map(this._rules, function(rule, i){
 				return this._getCriteriaStr(rule, i);
 			}, this).join('') + _statusFooter;
@@ -118,12 +118,12 @@ var gridCssCls = "", headerCssCls = "", cellCssCls = "", rowCssCls = "",
 			}
 		},
 		_getCriteriaStr: function(/* object */c, /* int */rowIdx){
-			var res = ["<tr class='", rowCssCls, 
+			var res = ["<tr class='", rowCssCls,
 				" ", (rowIdx % 2 ? oddRowCssCls : ""),
 				"'><td class='", cellCssCls, "'>", c.colTxt,
-				"</td><td class='", cellCssCls, 
+				"</td><td class='", cellCssCls,
 				"'><div class='", handleHolderCssCls, "'><span class='", conditionCssCls,
-				"'>", c.condTxt, "&nbsp;</span>", 
+				"'>", c.condTxt, "&nbsp;</span>",
 				c.formattedVal, "</div></td></tr>"];
 			return res.join('');
 		},

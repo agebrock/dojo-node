@@ -30,7 +30,7 @@
 //		When in dojo, of course those re-defined functions are not necessary.
 //		So, they are surrounded by the excludeStart and excludeEnd directives
 //		so that they will be excluded from the build.
-//		
+//
 //		If you use this module for non-dojo application, you need to explicitly
 //		assign your outer fixed node and inner scrollable node to this.domNode
 //		and this.containerNode respectively.
@@ -55,7 +55,7 @@
 //		| 		</div>
 //		| 	</div>
 //		| </body>
-//		
+//
 =====*/
 
 if(typeof dojo != "undefined" && dojo.provide){
@@ -150,9 +150,6 @@ dojox.mobile.scrollable = function(){
 		this._h = (this.scrollDir.indexOf("h") != -1); // horizontal scrolling
 		this._f = (this.scrollDir == "f"); // flipping views
 
-		this._appFooterHeight = (this.fixedFooterHeight && !this.isLocalFooter) ?
-			this.fixedFooterHeight : 0;
-
 		this._ch = []; // connect handlers
 		this._ch.push(dojo.connect(this.containerNode,
 			dojox.mobile.hasTouch ? "touchstart" : "onmousedown", this, "onTouchStart"));
@@ -160,7 +157,6 @@ dojox.mobile.scrollable = function(){
 			this._ch.push(dojo.connect(this.containerNode, "webkitAnimationEnd", this, "onFlickAnimationEnd"));
 			this._ch.push(dojo.connect(this.containerNode, "webkitAnimationStart", this, "onFlickAnimationStart"));
 		}
-		this.containerNode.style.paddingTop = this.fixedHeaderHeight + "px";
 
 		if(dojo.global.onorientationchange !== undefined){
 			this._ch.push(dojo.connect(dojo.global, "onorientationchange", this, "resizeView"));
@@ -182,6 +178,11 @@ dojox.mobile.scrollable = function(){
 	};
 
 	this.resizeView = function(e){
+		// moved from init() to support dynamically added fixed bars
+		this._appFooterHeight = (this.fixedFooterHeight && !this.isLocalFooter) ?
+			this.fixedFooterHeight : 0;
+		this.containerNode.style.paddingTop = this.fixedHeaderHeight + "px";
+
 		// has to wait a little for completion of hideAddressBar()
 		var c = 0;
 		var _this = this;
@@ -238,7 +239,7 @@ dojox.mobile.scrollable = function(){
 		this._posX = [this.touchStartX];
 		this._posY = [this.touchStartY];
 
-		if(e.target.nodeType != 1 || (e.target.tagName != "SELECT" && e.target.tagName != "INPUT")){
+		if(e.target.nodeType != 1 || (e.target.tagName != "SELECT" && e.target.tagName != "INPUT" && e.target.tagName != "TEXTAREA")){
 			dojo.stopEvent(e);
 		}
 	};
@@ -823,16 +824,16 @@ dojox.mobile.scrollable = function(){
 		var rule = dojox.mobile._rule[idx];
 		if(rule){
 			if(from){
-				rule.deleteRule("from"); 
+				rule.deleteRule("from");
 				rule.insertRule("from { -webkit-transform: "+this.makeTranslateStr(from)+"; }");
 			}
 			if(to){
 				if(to.x === undefined){ to.x = from.x; }
 				if(to.y === undefined){ to.y = from.y; }
-				rule.deleteRule("to"); 
+				rule.deleteRule("to");
 				rule.insertRule("to { -webkit-transform: "+this.makeTranslateStr(to)+"; }");
 			}
-		} 
+		}
 	};
 
 	this.setSelectable = function(node, selectable){

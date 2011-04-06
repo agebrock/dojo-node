@@ -80,10 +80,10 @@ dojo.declare("dojox.grid.enhanced.plugins.Search", dojox.grid.enhanced._Plugin, 
 						return String(s.getValue(item, cell.field)).search(searchArgs) >= 0;
 					}
 				}catch(e){
-					console.log("Search._checkRow: ", e);
+					console.log("Search._checkRow() error: ", e);
 				}
 				return false;
-			});	
+			});
 		}else{
 			for(field in searchArgs){
 				if(searchArgs[field] instanceof RegExp){
@@ -93,13 +93,13 @@ dojo.declare("dojox.grid.enhanced.plugins.Search", dojox.grid.enhanced._Plugin, 
 								if(String(s.getValue(item, field)).search(searchArgs[field]) < 0){
 									return false;
 								}
-								break;	
+								break;
 							}catch(e){
 								return false;
 							}
 						}
 					}
-					if(i < 0){ return false; }	
+					if(i < 0){ return false; }
 				}
 			}
 			return true;

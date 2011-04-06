@@ -10,7 +10,7 @@ dojo.require("dojo.store.Memory");
 			{id: 5, name: "five", prime: true}
 		]
 	});
-	tests.register("dojo.tests.store.Memory", 
+	tests.register("dojo.tests.store.Memory",
 		[
 			function testGet(t){
 				t.is(store.get(1).name, "one");
@@ -20,6 +20,16 @@ dojo.require("dojo.store.Memory");
 			function testQuery(t){
 				t.is(store.query({prime: true}).length, 3);
 				t.is(store.query({even: true})[1].name, "four");
+			},
+			function testQueryWithString(t){
+				t.is(store.query({name: "two"}).length, 1);
+				t.is(store.query({name: "two"})[0].name, "two");
+			},
+			function testQueryWithRegExp(t){
+				t.is(store.query({name: /^t/}).length, 2);
+				t.is(store.query({name: /^t/})[1].name, "three");
+				t.is(store.query({name: /^o/}).length, 1);
+				t.is(store.query({name: /o/}).length, 3);
 			},
 			function testQueryWithSort(t){
 				t.is(store.query({prime: true}, {sort:[{attribute:"name"}]}).length, 3);
@@ -69,7 +79,7 @@ dojo.require("dojo.store.Memory");
 			function testQueryAfterChanges(t){
 				t.is(store.query({prime: true}).length, 3);
 				t.is(store.query({perfect: true}).length, 1);
-			},		
+			},
 			function testIFRSStyleData(t){
 				var anotherStore = new dojo.store.Memory({
 					data: {

@@ -204,6 +204,14 @@ dojo.require("dojox.lang.functional");
 				return "C"+(bz1x+","+bz1y+" "+bz2x+","+bz2y+" "+p2.x+","+p2.y);
 			});
 			return p.join(" ");
+		},
+		
+		getLabel: function(/*Number*/number, /*Boolean*/fixed, /*Number*/precision){
+			if(dojo.number){
+				return (fixed ? dojo.number.format(number, {places : precision}) :
+					dojo.number.format(number)) || "";
+			}
+			return fixed ? number.toFixed(precision) : number.toString();
 		}
 	});
 })();

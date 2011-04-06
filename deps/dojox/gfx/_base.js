@@ -11,7 +11,7 @@ dojo.provide("dojox.gfx._base");
 		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)	// Boolean
 		var cls = node.getAttribute("className");
 		return cls && (" " + cls + " ").indexOf(" " + classStr + " ") >= 0;  // Boolean
-	}
+	};
 	g._addClass = function(/*DomNode*/node, /*String*/classStr){
 		//	summary:
 		//		Adds the specified classes to the end of the class list on the
@@ -20,17 +20,17 @@ dojo.provide("dojox.gfx._base");
 		if(!cls || (" " + cls + " ").indexOf(" " + classStr + " ") < 0){
 			node.setAttribute("className", cls + (cls ? " " : "") + classStr);
 		}
-	}
+	};
 	g._removeClass = function(/*DomNode*/node, /*String*/classStr){
 		//	summary: Removes classes from node.
 		var cls = node.getAttribute("className");
 		if(cls){
 			node.setAttribute(
-				"className", 
+				"className",
 				cls.replace(new RegExp('(^|\\s+)' + classStr + '(\\s+|$)'), "$1$2")
 			);
 		}
-	}
+	};
 
 	// candidate for dojox.html.metrics (dynamic font resize handler is not implemented here)
 
@@ -179,7 +179,7 @@ dojo.mixin(dojox.gfx, {
 
 	// default geometric attributes
 	defaultStroke: {
-		type: "stroke", color: "black", style: "solid", width: 1, 
+		type: "stroke", color: "black", style: "solid", width: 1,
 		cap: "butt", join: 4
 	},
 	defaultLinearGradient: {
@@ -198,7 +198,7 @@ dojo.mixin(dojox.gfx, {
 		type: "pattern", x: 0, y: 0, width: 0, height: 0, src: ""
 	},
 	defaultFont: {
-		type: "font", style: "normal", variant: "normal", 
+		type: "font", style: "normal", variant: "normal",
 		weight: "normal", size: "10pt", family: "serif"
 	},
 
@@ -362,5 +362,16 @@ dojo.mixin(dojox.gfx, {
 	equalSources: function(a, b){
 		// summary: compares event sources, returns true if they are equal
 		return a && b && a == b;
+	},
+	
+	switchTo: function(renderer){
+		var ns = dojox.gfx[renderer];
+		if(ns){
+			dojo.forEach(["Group", "Rect", "Ellipse", "Circle", "Line",
+					"Polyline", "Image", "Text", "Path", "TextPath",
+					"Surface", "createSurface"], function(name){
+				dojox.gfx[name] = ns[name];
+			});
+		}
 	}
 });

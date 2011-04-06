@@ -15,7 +15,7 @@ dojo.declare("dojox.charting.action2d.__TooltipCtorArgs", dojox.charting.action2
 	//		Additional arguments for tooltip actions.
 
 	//	text: Function?
-	//		The function that produces the text to be shown within a tooltip.  By default this will be 
+	//		The function that produces the text to be shown within a tooltip.  By default this will be
 	//		set by the plot in question, by returning the value of the element.
 	text: null
 });
@@ -77,7 +77,6 @@ dojo.declare("dojox.charting.action2d.__TooltipCtorArgs", dojox.charting.action2
 				}
 				return;
 			}
-			
 			
 			if(!o.shape || o.type !== "onmouseover"){ return; }
 			
@@ -150,8 +149,11 @@ dojo.declare("dojox.charting.action2d.__TooltipCtorArgs", dojox.charting.action2
 			aroundRect.width = Math.ceil(aroundRect.width);
 			aroundRect.height = Math.ceil(aroundRect.height);
 			this.aroundRect = aroundRect;
-			
-            dijit.showTooltip(this.text(o), this.aroundRect, position);
+
+			var tooltip = this.text(o);
+			if(tooltip){
+                dijit.showTooltip(tooltip, this.aroundRect, position);
+			}
 		}
 	});
 })();

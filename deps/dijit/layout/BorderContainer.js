@@ -27,9 +27,9 @@ dojo.declare(
 	// example:
 	// |	<div dojoType="dijit.layout.BorderContainer" design="sidebar" gutters="false"
 	// |            style="width: 400px; height: 300px;">
-	// |		<div dojoType="ContentPane" region="top">header text</div>
-	// |		<div dojoType="ContentPane" region="right" splitter="true" style="width: 200px;">table of contents</div>
-	// |		<div dojoType="ContentPane" region="center">client area</div>
+	// |		<div dojoType="dijit.layout.ContentPane" region="top">header text</div>
+	// |		<div dojoType="dijit.layout.ContentPane" region="right" splitter="true" style="width: 200px;">table of contents</div>
+	// |		<div dojoType="dijit.layout.ContentPane" region="center">client area</div>
 	// |	</div>
 
 	// design: String
@@ -90,7 +90,7 @@ dojo.declare(
 			// Create draggable splitter for resizing pane,
 			// or alternately if splitter=false but BorderContainer.gutters=true then
 			// insert dummy div just for spacing
-			if((child.splitter || this.gutters) && !child._splitterWidget){
+			if(region != "center" && (child.splitter || this.gutters) && !child._splitterWidget){
 				var _Splitter = dojo.getObject(child.splitter ? this._splitterClass : "dijit.layout._Gutter");
 				var splitter = new _Splitter({
 					id: child.id + "_splitter",
@@ -337,7 +337,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 	postMixInProperties: function(){
 		this.inherited(arguments);
 
-		this.horizontal = /top|bottom/.test(this.region);		
+		this.horizontal = /top|bottom/.test(this.region);
 		this._factor = /top|left/.test(this.region) ? 1 : -1;
 		this._cookieName = this.container.id + "_" + this.region;
 	},
@@ -437,7 +437,7 @@ dojo.declare("dijit.layout._Splitter", [ dijit._Widget, dijit._Templated ],
 				dojo.removeClass(this.cover, "dijitSplitterCoverActive");
 			}
 			if(this.fake){ dojo.destroy(this.fake); }
-			dojo.removeClass(this.domNode, "dijitSplitterActive dijitSplitter" 
+			dojo.removeClass(this.domNode, "dijitSplitterActive dijitSplitter"
 				+ (this.horizontal ? "H" : "V") + "Active dijitSplitterShadow");
 			this._drag(e); //TODO: redundant with onmousemove?
 			this._drag(e, true);

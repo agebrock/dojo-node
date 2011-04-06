@@ -10,7 +10,7 @@ var formatDate = function(inDatum){
 };
 var layout = [
 	[{//--------------------------------------------------------------------------0
-		defaultCell: {editable: true, autoComplete:true},
+		defaultCell: {editable: true, autoComplete:true, type: dojox.grid.cells._Widget},
 		cells:
 		[
 			{ field: "id", name:"Index", datatype:"number", width: 2.5},
@@ -32,7 +32,7 @@ var layout = [
 //				}
 			},
 			{ field: "Composer", name:"Composer", datatype:"string", width: 12},
-			{ field: "Download Date", name:"Download Date", datatype:"date", width: 12, 
+			{ field: "Download Date", name:"Download Date", datatype:"date", width: 12,
 				navigatable: true, editable: false,
 				//formatter: formatDate,
 				dataTypeArgs: {

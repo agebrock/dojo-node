@@ -1,11 +1,10 @@
-define("dojo/data/ObjectStore", ["dojo"], function(dojo) {
-
+define("dojo/data/ObjectStore", ["dojo", "dojo/regexp"], function(dojo) {
 
 
 dojo.declare("dojo.data.ObjectStore", null,{
 		objectStore: null,
 		constructor: function(options){
-			// summary: 
+			// summary:
 			//		A Dojo Data implementation that wraps Dojo object stores for backwards
 			//		compatibility.
 			//	options:
@@ -27,8 +26,8 @@ dojo.declare("dojo.data.ObjectStore", null,{
 			//	defaultValue:
 			//		the default value
 			
-			return typeof item.get === "function" ? item.get(property) : 
-				property in item ? 
+			return typeof item.get === "function" ? item.get(property) :
+				property in item ?
 					item[property] : defaultValue;
 		},
 		getValues: function(item, property){
@@ -141,11 +140,28 @@ dojo.declare("dojo.data.ObjectStore", null,{
 			// summary:
 			//		See dojo.data.api.Read.fetch
 			//
-
+			
 			args = args || {};
 			var self = this;
 			var scope = args.scope || self;
-			var results = this.objectStore.query(args.query, args);
+			var query = args.query;
+			if(typeof query == "object"){ // can be null, but that is ignore by for-in
+				query = dojo.delegate(query); // don't modify the original
+				for(var i in query){
+					// find any strings and convert them to regular expressions for wildcard support
+					var required = query[i];
+					if(typeof required == "string"){
+						query[i] = RegExp("^" + dojo.regexp.escapeString(required, "*?").replace(/\*/g, '.*').replace(/\?/g, '.') + "$", args.queryOptions && args.queryOptions.ignoreCase ? "mi" : "m");
+						query[i].toString = (function(original){
+							return function(){
+								return original;
+							}
+						})(required);
+					}
+				}
+			}
+			
+			var results = this.objectStore.query(query, args);
 			dojo.when(results.total, function(totalCount){
 				dojo.when(results, function(results){
 					if(args.onBegin){
@@ -159,12 +175,14 @@ dojo.declare("dojo.data.ObjectStore", null,{
 					if(args.onComplete){
 						args.onComplete.call(scope, args.onItem ? null : results, args);
 					}
-					return results;				
+					return results;
 				}, args.onError && dojo.hitch(scope, args.onError));
 			}, args.onError && dojo.hitch(scope, args.onError));
 			args.abort = function(){
 				// abort the request
-				defResult.ioArgs.xhr.abort();
+				if(results.cancel){
+					results.cancel();
+				}
 			};
 			args.store = this;
 			return args;
@@ -177,21 +195,23 @@ dojo.declare("dojo.data.ObjectStore", null,{
 				"dojo.data.api.Read": !!this.objectStore.get,
 				"dojo.data.api.Identity": true,
 				"dojo.data.api.Write": !!this.objectStore.put,
-				"dojo.data.api.Notification": !!this.objectStore.subscribe
+				"dojo.data.api.Notification": true
 			};
 		},
 
-		getLabel: function(item){
-			// summary
-			//		returns the label for an item. Just gets the "label" attribute.
-			//
-			return this.getValue(item,this.labelProperty);
+		getLabel: function(/* item */ item){
+			//	summary:
+			//		See dojo.data.api.Read.getLabel()
+			if(this.isItem(item)){
+				return this.getValue(item,this.labelProperty); //String
+			}
+			return undefined; //undefined
 		},
 
-		getLabelAttributes: function(item){
-			// summary:
-			//		returns an array of attributes that are used to create the label of an item
-			return [this.labelProperty];
+		getLabelAttributes: function(/* item */ item){
+			//	summary:
+			//		See dojo.data.api.Read.getLabelAttributes()
+			return [this.labelProperty]; //array
 		},
 
 		//Identity API Support
@@ -232,7 +252,6 @@ dojo.declare("dojo.data.ObjectStore", null,{
 			//
 			//	data: /* object */
 			//		The data to be added in as an item.
-			data = new this._constructor(data);
 			if(parentInfo){
 				// get the previous value or any empty array
 				var values = this.getValue(parentInfo.parent,parentInfo.attribute,[]);
@@ -242,7 +261,7 @@ dojo.declare("dojo.data.ObjectStore", null,{
 				this.setValue(parentInfo.parent, parentInfo.attribute, values);
 			}
 			this._dirtyObjects.push({object:data, save: true});
-			
+			this.onNew(data);
 			return data;
 		},
 		deleteItem: function(item){
@@ -353,7 +372,7 @@ dojo.declare("dojo.data.ObjectStore", null,{
 						self._dirtyObjects = postCommitDirtyObjects;
 					}
 					else{
-						self._dirtyObjects = dirtyObject.concat(savingObjects); 
+						self._dirtyObjects = dirtyObject.concat(savingObjects);
 					}
 				});
 				if(this.objectStore.transaction){

@@ -1,7 +1,7 @@
 define("dijit/layout/ContentPane", ["dojo", "dijit", "dijit/_Widget", "dijit/layout/_LayoutWidget", "dijit/layout/_ContentPaneResizeMixin", "dojo/string", "dojo/html", "i18n!dijit/nls/loading"], function(dojo, dijit) {
 
 dojo.declare(
-	"dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin], 
+	"dijit.layout.ContentPane", [dijit._Widget, dijit.layout._ContentPaneResizeMixin],
 {
 	// summary:
 	//		A widget containing an HTML fragment, specified inline
@@ -97,12 +97,6 @@ dojo.declare(
 	// |	<div dojoType="dijit.layout.ContentPane" href="./bar" ioArgs="{timeout: 500}">
 	ioArgs: {},
 
-	// isContainer: [protected] Boolean
-	//		Indicates that this widget acts as a "parent" to the descendant widgets.
-	//		When the parent is started it will call startup() on the child widgets.
-	//		See also `isLayoutContainer`.
-	isContainer: true,
-
 	// onLoadDeferred: [readonly] dojo.Deferred
 	//		This is the `dojo.Deferred` returned by set('href', ...) and refresh().
 	//		Calling onLoadDeferred.addCallback() or addErrback() registers your
@@ -169,6 +163,24 @@ dojo.declare(
 		}
 	},
 
+	_startChildren: function(){
+		// summary:
+		//		Call startup() on all children including non _Widget ones like dojo.dnd.Source objects
+
+		// This starts all the widgets
+		this.inherited(arguments);
+
+		// And this catches stuff like dojo.dnd.Source
+		if(this._contentSetter){
+			dojo.forEach(this._contentSetter.parseResults, function(obj){
+				if(!obj._started && !obj._destroyed && dojo.isFunction(obj.startup)){
+					obj.startup();
+					obj._started = true;
+				}
+			}, this);
+		}
+	},
+
 	startup: function(){
 		// summary:
 		//		See `dijit.layout._LayoutWidget.startup` for description.
@@ -179,7 +191,7 @@ dojo.declare(
 
 		this.inherited(arguments);
 
-		if(this._isShown() || this.preload){
+		if(this._isShown()){
 			this._onShow();
 		}
 	},
@@ -208,8 +220,9 @@ dojo.declare(
 		this._set("href", href);
 
 		// _setHrefAttr() is called during creation and by the user, after creation.
-		// only in the second case do we actually load the URL; otherwise it's done in startup()
-		if(this._created && (this.preload || this._isShown())){
+		// Assuming preload == false, only in the second case do we actually load the URL;
+		// otherwise it's done in startup(), and only if this widget is shown.
+		if(this.preload || (this._created && this._isShown())){
 			this._load();
 		}else{
 			// Set flag to indicate that href needs to be loaded the next time the
@@ -309,7 +322,7 @@ dojo.declare(
 
 		this._resizeCalled = true;
 
-		this._scheduleLayout(changeSize, resultSize);		
+		this._scheduleLayout(changeSize, resultSize);
 	},
 
 	_isShown: function(){
@@ -330,9 +343,9 @@ dojo.declare(
 		}else if("open" in this){
 			return this.open;		// for TitlePane, etc.
 		}else{
-			// TODO: with _childOfLayoutWidget check maybe this branch no longer necessary?
-			var node = this.domNode;
-			return (node.style.display != 'none') && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden");
+			var node = this.domNode, parent = this.domNode.parentNode;
+			return (node.style.display != 'none') && (node.style.visibility != 'hidden') && !dojo.hasClass(node, "dijitHidden") &&
+					parent && parent.style && (parent.style.display != 'none');
 		}
 	},
 
@@ -543,9 +556,7 @@ dojo.declare(
 		if(!isFakeContent){
 			if(this._started){
 				// Startup each top level child widget (and they will start their children, recursively)
-				dojo.forEach(this.getChildren(), function(child){
-					child.startup();
-				}, this);
+				this._startChildren();
 	
 				// Call resize() on each of my child layout widgets,
 				// or resize() on my single child layout widget...

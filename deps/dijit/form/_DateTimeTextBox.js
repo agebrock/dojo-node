@@ -120,17 +120,17 @@ dojo.declare(
 
 		buildRendering: function(){
 			this.inherited(arguments);
-			
+
+			if(!this.hasDownArrow){
+				this._buttonNode.style.display = "none";
+			}
+
 			// If openOnClick is true, we basically just want to treat the whole widget as the
 			// button.  We need to do that also if the actual drop down button will be hidden,
 			// so that there's a mouse method for opening the drop down.
 			if(this.openOnClick || !this.hasDownArrow){
 				this._buttonNode = this.domNode;
 				this.baseClass += " dijitComboBoxOpenOnClick";
-			}
-
-			if(!this.hasDownArrow){
-				this._buttonNode.style.display = "none";
 			}
 		},
 
@@ -184,7 +184,7 @@ dojo.declare(
 
 		_setDropDownDefaultValueAttr: function(/*Date*/ val){
 			if(this._isInvalidDate(val)){
-				// convert null setting into today's date, since there needs to be *some* default at all times.		
+				// convert null setting into today's date, since there needs to be *some* default at all times.
 				 val = new this.dateClassObj()
 						}
 			this.dropDownDefaultValue = val;
