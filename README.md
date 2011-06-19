@@ -1,3 +1,8 @@
+## Dojo 1.7 will support Node.js natively 
+* There is no need to keep the project alive - this project will end at this point. 
+
+
+
 # dojo-node
 a lightwave dojo framework wrapper for node.js
 use the rich framework components in your node environment.
