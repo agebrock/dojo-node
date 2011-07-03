@@ -1,0 +1,14 @@
+{
+  "name": "dojo-node",
+  "description": "Dojo framework v.1.7rc2",
+  "keywords": ["framework", "web", "dojo"],
+  "version": "1.7.0rc2",
+  "repository": "git@github.com:agebrock/dojo-node.git",
+  "author": "Agebrock <christoph.hagenbrock@googlemail.com>",
+  "dependencies": { 
+    "htmlparser": ">= 0.0.0",
+    "jsdom": ">= 0.2.0"
+    },
+  "main": "index",
+  "engines": { "node": ">= 0.4.0" }
+}
