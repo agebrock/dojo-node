@@ -5,16 +5,17 @@ dojo-node is now running on top of dojo's new amd core.
 
 ## REMOVED dono namespace
 There has been a change in dojo-node from 1.6 to 1.7 
+
+
     require("dono.dom");
     
     //changed to 
     dojo.initDocument("<html>..>YOUR HTML CODE HERE<--</html>");
     
-    /*
-    have a look at the test/test.js file to see the change in use.
-    Feel free to contact me if you have any problems upgrading.
-    
-    */
+
+have a look at the test/test.js file to see the change in use.
+Feel free to contact me if you have any problems upgrading.
+
     
     
 ### Future
