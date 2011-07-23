@@ -1,14 +1,11 @@
 {
 	"name": "dijit",
 	"version":"1.7.0dev",
-	"directories": {
-		"lib": "."
-	},
 	"main":"main",
-	"mappings": {
-		"dojo": "https://github.com/dojo/dojo/zipball/1.0.2"
+	"dependencies": {
+		"dojo": "current"
 	},
-	"description": "Dijit is Dojo�s UI Library",
+	"description": "Dijit provides a complete collection of user interface controls based on Dojo, giving you the power to create web applications that are highly optimized for usability, performance, internationalization, accessibility, but above all deliver an incredible user experience.",
 	"licenses": [
 		 {
 				 "type": "AFLv2.1",
@@ -22,14 +19,5 @@
 	"bugs": "http://bugs.dojotoolkit.org/",
 	"keywords": ["JavaScript", "Dojo", "Widget"],
 	"homepage": "http://dojotoolkit.org/",
-	"dojoBuild": {
-		"resourceTags":{
-			"test": [".*/dijit/tests.*", ".*/dijit/robot.*"],
-			"amd": [".*\\.js$", "!", ".*/nls/.*", "!", "resources/_modules.js", "!", "/themes/claro/compile.js"]
-		},
-		"trees":[
-			[".", ".", "/\\."]
-		]
-	}
-
+	"dojoBuild": "dijit.profile.js"
 }

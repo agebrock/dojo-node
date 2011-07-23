@@ -27,7 +27,7 @@ Feel free to contact me if you have any problems upgrading.
 
     
 ### Compatibility
-* node.js 0.4 may work with older releases (otherwise you should use prio 1.7 version)
+* node.js 0.4 may work with older releases (otherwise you should use the 1.7 version)
 
 ## Installation
 ### NPM

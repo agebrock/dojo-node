@@ -4,7 +4,8 @@
 <link rel="stylesheet" type="text/css" href="../../../../../dijit/themes/tundra/tundra.css">
 <title>Dojo Widget Feature</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<meta name="GENERATOR" content="Rational® Application Developer Standard Edition for WebSphere® Software">
+<meta name="GENERATOR"
+	content="Rational® Application Developer Standard Edition for WebSphere® Software">
 
 <!-- 
 <script type="text/javascript" src="../../../openlayers_current/lib/OpenLayers.js"></script>
@@ -15,9 +16,6 @@
 
 <script type="text/javascript">
 	var djConfig = {
-		debugAtAllCosts : true,
-		isDebug : true,
-		locale : 'en',
 		parseOnLoad : true
 	};
 </script>
@@ -60,14 +58,13 @@
 			baseLayerType : dojox.geo.openlayers.OSM
 		};
 
-		map = new dojox.geo.openlayers.widget.Map();
-		dojo.place(map.domNode, "map");
+		map = new dojox.geo.openlayers.widget.Map({}, "map");
 		map.startup();
-
-		createCharts();
 
 		var loc = '{"position" : [2.940673, 47.179259], "extent" : "5"}';
 		map.map.fitTo(loc);
+
+		createCharts();
 
 	});
 
@@ -75,7 +72,7 @@
 		return r * 180 / Math.PI;
 	}
 
-	var locs = [ {
+	var locs = [{
 		name : "Nice",
 		x : 7.262,
 		y : 43.706
@@ -219,17 +216,42 @@
 		name : "Boulogne-Billancourt",
 		x : 2.242,
 		y : 48.840
-	} ];
+	}];
+
+	var locsIE = [{
+		name : "Nice",
+		x : 7.262,
+		y : 43.706
+	}, {
+		name : "Saint-Etienne",
+		x : 4.390,
+		y : 45.441
+	}, {
+		name : "Strasbourg",
+		x : 7.756,
+		y : 48.584
+	}, {
+		name : "Boulogne-Billancourt",
+		x : 2.242,
+		y : 48.840
+	}];
 
 	function createCharts(){
 		var layer = new dojox.geo.openlayers.Layer();
-		var feature;
-
-		dojo.forEach(locs, function(l){
-			feature = createChart(l, {});
+		map.map.addLayer(layer);
+		var lo;
+		if (dojo.isIE)
+			lo = locsIE;
+		else
+			lo = locs;
+		dojo.forEach(lo, function(l){
+			var feature = createChart(l, {});
 			layer.addFeature(feature);
 		});
-		map.map.addLayer(layer);
+
+		setTimeout(function(){
+			layer.redraw();
+		}, 500);
 	}
 
 	function getCoords(loc){
@@ -244,7 +266,7 @@
 			lat = loc.y;
 		if (loc.hasOwnProperty('lat'))
 			lat = dojox.geo.openlayers.parseDMS(loc.lat, true);
-		return [ lng, lat ];
+		return [lng, lat];
 	}
 
 	function createButton(loc){
@@ -303,7 +325,7 @@
 						fontColor : "black"
 					});
 
-					var ser = [ 2, 8, 12, 43, 56, 23, 43, 1, 33 ];
+					var ser = [2, 8, 12, 43, 56, 23, 43, 1, 33];
 					c.addSeries("Series", ser);
 					c.setTheme(dojox.charting.themes.PlotKit.blue);
 					c.render();
@@ -324,7 +346,7 @@
 
 <body class="tundra">
 
-<div id="map" style="background-color: #b5d0d0; width: 100%; height: 100%;"></div>
+	<div id="map" style="background-color: #b5d0d0; width: 100%; height: 100%;"></div>
 
 </body>
 </html>

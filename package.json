@@ -2,7 +2,7 @@
   "name": "dojo-node",
   "description": "Dojo framework v.1.7rc2",
   "keywords": ["framework", "web", "dojo"],
-  "version": "1.7.0rc2",
+  "version": "1.7.0hackrc2",
   "repository": "git@github.com:agebrock/dojo-node.git",
   "author": "Agebrock <christoph.hagenbrock@googlemail.com>",
   "dependencies": { 

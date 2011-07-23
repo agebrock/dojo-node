@@ -2,7 +2,6 @@ require('../index');
 
 
 
-
 //dojo without DOM 
 dojo.require('dojox.json.ref');
 console.dir(dojox.json.ref.toJson(dojo.mixin({'foo':'baa'},{'foo2':'baa2'})));
@@ -26,7 +25,7 @@ define("dono/Widget",["dijit/_Widget", "dijit/_TemplatedMixin"],function(){
 dojo.addOnLoad(function(){
 console.log("LOADED");
 })
-
+console.log("Fancy ? " + dojo.byId("foo2").innerHTML);
 /**
 take care dojox registers every widget don't mess with your memory 
 clear the registry or reuse widgets ! 
@@ -36,8 +35,9 @@ w = new dono.Widget({headline:"dojo running via Node.js"});
 w.set("headline", "test");
 console.log(w.headline);
 console.log(w.domNode.outerHTML);
-console.log("Fancy ? " + dojo.byId("foo2").innerHTML);
+
 
 
 console.log(dojo.query(".foo")[0].innerHTML);
 console.dir(dojo.version);
+

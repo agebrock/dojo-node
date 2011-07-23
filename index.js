@@ -1,12 +1,18 @@
 require(__dirname + "/lib/dojo/dojo");
-
-
+dojo.debug = false;
 dojo.initDocument = function(html){
 
     var jsdom  = require("jsdom");
+    
+    
+    jsdom.defaultDocumentFeatures = {
+      FetchExternalResources   :  ["script"], 
+      ProcessExternalResources : ["script"],
+      "MutationEvents"           : '2.0',
+      "QuerySelector"            : false
+    }
     window = jsdom.jsdom(html).createWindow();
-    document = window.document;
-    dojo.doc = document;
+    document = dojo.doc = window.document;
     window.navigator = {
             "language": "DE_de",
             "product": "Gecko",
@@ -21,7 +27,8 @@ dojo.initDocument = function(html){
             "userAgent": "Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/534.11 (KHTML, like Gecko) Chrome/9.0.570.1 Safari/534.11",
             "vendorSub": ""
         };
-        window.location = {
+     location = window.location = {
+            "href": "http://www.myhost.de/",
             "origin": "http://www.myhost.de",
             "host": "myhost",
             "hostname": "www.myhost.de",
