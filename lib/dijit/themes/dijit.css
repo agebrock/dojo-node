@@ -179,22 +179,25 @@ table.dijitInline {
  */
 .dijit_a11y .dijitCalendarDateLabel {
 	padding: 1px;
+	border: 0px !important;
 }
 .dijit_a11y .dijitCalendarSelectedDate .dijitCalendarDateLabel {
-	border-style: dotted !important;
-	border-width: 1px;
+	border-style: solid !important;
+	border-width: 1px !important;
 	padding: 0;
 }
 .dijit_a11y .dijitCalendarDateTemplate {
 	padding-bottom: 0.1em !important;	/* otherwise bottom border doesn't appear on IE */
+	border: 0px !important;
 }
 .dijit_a11y .dijitButtonNode {
 	border: black outset medium !important;
 
 	/* In claro, hovering a toolbar button reduces padding and adds a border.
 	 * Not needed in a11y mode since Toolbar buttons always have a border.
+	 * Note also that padding=0 makes focus border hard to see, so using padding=1.
 	 */
-	padding: 0 !important;
+	padding: 1 !important;
 }
 
 .dijit_a11y .dijitTextBoxReadOnly .dijitInputField,
@@ -645,6 +648,11 @@ DIV.dijitArrowButton {
 	height: auto;
 }
 
+.dijit_a11y .dijitFocusedLabel {
+	/* for checkboxes or radio buttons in high contrast mode, use border rather than outline to indicate focus (outline does not work in FF)*/
+	border: 1px dotted;
+	outline: 0px !important;
+}
 
 /****
 		dijit.ProgressBar

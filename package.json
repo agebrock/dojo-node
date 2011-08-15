@@ -1,14 +1,22 @@
 {
   "name": "dojo-node",
-  "description": "Dojo framework v.1.7rc2",
+  "description": "dono",
   "keywords": ["framework", "web", "dojo"],
-  "version": "1.7.0hackrc2",
+  "version": "1.7.0b1edge",
   "repository": "git@github.com:agebrock/dojo-node.git",
   "author": "Agebrock <christoph.hagenbrock@googlemail.com>",
+  "preferGlobal" : true,
   "dependencies": { 
-    "htmlparser": ">= 0.0.0",
-    "jsdom": ">= 0.2.0"
+    "htmlparser": ">= 0.0.x",
+    "jsdom": ">= 0.2.x",
+    "html5": ">= 0.3.x",
+    "winston":">= 0.0.x"
     },
+  "bin" : { "dojo" : "./bin/dojo.js",
+            "doh" : "./bin/doh.js",
+            "dojobuild" : "./bin/dojobuild.js",
+	        "dojodeploy" : "./bin/dojodeploy.js"
+  },
   "main": "index",
-  "engines": { "node": ">= 0.4.0" }
+  "engines": { "node": ">= 0.4.x" }
 }

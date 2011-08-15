@@ -1,20 +1,20 @@
 dependencies = {
 	packages:[{
 		name:"dojo",
-		location:"lib/dojo",
+		location:"./lib/dojo",
 		lib:".",
-		main:"lib/main-browser"
+		main:"main"
 	},{
 		name:"dijit",
-		location:"lib/dijit",
+		location:"./lib/dijit",
 		lib:".",
-		main:"lib/main"
+		main:"main"
+	},{
+		name:"dojox",
+		location:"./lib/dojox",
+		lib:".",
+		main:"main"
 	}],
 
 	deps:["main"],
-
-	prefixes: [
-		[ "dijit", "lib/dijit" ],
-		[ "dojox", "lib/dojox" ]
-	]
 }

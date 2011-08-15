@@ -1,16 +1,13 @@
 # dojo-node
-1.7rc2 up and running.. 
+1.7rc4 up and running.. 
 
-dojo-node is now running on top of dojo's new amd core. 
+##Builder integrated
+* not perfect but working in some way 
+
+
 
 ## REMOVED dono namespace
 There has been a change in dojo-node from 1.6 to 1.7 
-
-
-    require("dono.dom");
-    
-    //changed to 
-    dojo.initDocument("<html>..>YOUR HTML CODE HERE<--</html>");
     
 
 have a look at the test/test.js file to see the change in use.
@@ -27,7 +24,7 @@ Feel free to contact me if you have any problems upgrading.
 
     
 ### Compatibility
-* node.js 0.4 may work with older releases (otherwise you should use the 1.7 version)
+* node.js 0.4 may work with older releases may not
 
 ## Installation
 ### NPM

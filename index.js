@@ -1,7 +1,10 @@
-require(__dirname + "/lib/dojo/dojo");
-dojo.debug = false;
-dojo.initDocument = function(html){
 
+require(__dirname + "/lib/dojo/dojo");
+require(__dirname + "/lib/utils");
+
+
+dojo.initDocument = function(html){
+    XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
     var jsdom  = require("jsdom");
     
     
@@ -38,7 +41,7 @@ dojo.initDocument = function(html){
             "protocol": "http:"
         };
     navigator = window.navigator;
-    
+    dojo.require("dojo._base.browser");
 }
 
 module.exports = {dojo:dojo,dijit:dijit,dojox:dojox};
