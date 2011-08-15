@@ -1,13 +1,13 @@
-var jsdom  = require("jsdom");
-var  HTML5 = require('html5'),
+var jsdom  = require("jsdom"),
+    HTML5 = require('html5'),
     Script = process.binding('evals').Script,
     sys = require('sys'),
-    fs = require('fs')
-    r = require("request")
+    fs = require('fs'),
+    r = require("request"),
     url = require("url");
 
 
-
+XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 navigator = {
     appCodeName: "Mozilla",
@@ -37,7 +37,14 @@ location =  {
         protocol: "http:"
 };
 
-    
+jsdom.defaultDocumentFeatures = {
+     // FetchExternalResources   : ["script"],
+      ProcessExternalResources :  ['script', 'img', 'css', 'frame', 'link'],
+      FetchExternalResources   : [],
+      ProcessExternalResources : [],
+      "MutationEvents"           : '3.0',
+      "QuerySelector"            : false
+    }    
     
 var dojoDom = module.exports = {
     /**
@@ -60,39 +67,32 @@ var dojoDom = module.exports = {
                   callback(null,dojoDom.fromString(b.body));
             });
         }else{ 
+            console.log("STRING");
             callback(null,dojoDom.fromString(input));
         }
 
 
-    XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+   
 },
     fromString : function(html){
     
-       jsdom.defaultDocumentFeatures = {
-        //  FetchExternalResources   : ["script"],
-        //  ProcessExternalResources : ["script"],
-      //    FetchExternalResources   : [],
-      //    ProcessExternalResources : [],
-          "MutationEvents"           : '2.0',
-          "QuerySelector"            : false
-        }    
+       
     
-      window = jsdom.jsdom(null, null, {parser: HTML5}).createWindow(html);
-  
-      var parser = new HTML5.Parser({document: window.document});
-      document = window.document;
-      window.navigator = navigator;
+    window = jsdom.jsdom(null, null, {parser: HTML5}).createWindow();
+   
+    var parser = new HTML5.Parser({document: window.document});
+
+    document = window.document;
+    window.navigator = navigator;
+    
+    window = jsdom.jsdom(html, null, { parser: HTML5 } ).createWindow();
     
 
-   
-    
-   window = jsdom.jsdom(html, null, { parser: HTML5 } ).createWindow();
-    
+
     if(typeof dojo != "undefined"){
        dojo.doc = document;
     }
    
-
 
     return document;
 }}
