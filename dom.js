@@ -64,10 +64,11 @@ var dojoDom = module.exports = {
       
             //request remote content
             r[input.method || "get"](input, function(e,b,h){
+                  if(callback)
                   callback(null,dojoDom.fromString(b.body));
             });
         }else{ 
-            console.log("STRING");
+            if(callback)
             callback(null,dojoDom.fromString(input));
         }
 

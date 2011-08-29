@@ -1,3 +1,4 @@
+require("../dom").createDocument();
 require('../index');
 
 

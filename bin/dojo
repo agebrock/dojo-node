@@ -50,7 +50,7 @@ var streamChild = function (params, callback) {
 }
 var p = process.cwd();
 process.chdir(path.normalize(__dirname + "/../lib/dojo/"));
-streamChild([p + "/" + process.argv.slice(2)], cb());
+streamChild([p + "/dojo.js" + process.argv.slice(2)], cb());
 
 
 
