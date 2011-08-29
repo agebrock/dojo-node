@@ -1,20 +1,82 @@
 # dojo-node
-1.7rc4 up and running.. 
 
 
+## previews added
 
+* I integrated some "may" futur components to the lib. (check the ./lib/ dir for details)
 
 ##Builder integrated
-* not perfect but working in some way 
+
+* dojodeploy
+use dojobuild to build a release in your current directory
+
+* dojobuild
+use dojobuild packageConfig.js to roll your own
+
+### Useage:
+
+    require("dojo-node");
+    //use initDocument to load DOM (HTML5 based)
+    dojo.initDocument();
 
 
+    // run a simple express instance (Expres required ;)
+    var app = require("express").createServer();
 
-## REMOVED dono namespace
-There has been a change in dojo-node from 1.6 to 1.7 
+    app.all("/*", function(req, res){
+        inspect(req.headers);
+        log.info("body:",req.body);
+        inspect(req.query);
+        log.info("params:", req.params);
+        req.query.id = (new Date()).getTime();
+        res.end(JSON.stringify(req.query));
+    });
+
+    app.listen(3000);
+
+
+    // quick break to give the server time to come UP
+    setTimeout(function(){
     
+    // run your Develop your Client within the same environment ! 
+    
+        var ob = dojo.require("dojo.store.Observable");
+        var JsonRest = dojo.require("dojo.store.JsonRest");
 
-have a look at the test/test.js file to see the change in use.
-Feel free to contact me if you have any problems upgrading.
+        var jsonRestStore = new JsonRest({target:"http://localhost:3000/test/"});
+
+        var store = ob(jsonRestStore);
+      
+        var results = store.query({ prime: true });
+        
+        //personal helper function to speed up.
+        inspect(results);
+        
+        var observer = results.observe(function(object, previousIndex, newIndex){
+            if(previousIndex == -1){
+                object.changedbeforWrite = true;
+            }
+        
+            inspect({
+                previousIndex:previousIndex, 
+                newIndex:newIndex, 
+                object:object
+                });
+        });
+
+        store.put({somedata:"someValue"}).then(function(item){
+            inspect(item);
+        });
+
+        store.get(1).then(function(item){
+            inspect(item);
+        });
+
+    var context = require("repl").start().context.store = store;
+    },1)
+
+
+
 
     
     
@@ -35,9 +97,8 @@ Feel free to contact me if you have any problems upgrading.
 
 
 ### do it yourself
-* $ npm install htmlparser
 * $ git clone git@github.com:agebrock/dojo-node.git
-* $ cd dojo-node
+* $ npm install
 * node test/test.js
 
 

@@ -2,7 +2,7 @@
   "name": "dojo-node",
   "description": "dono",
   "keywords": ["framework", "web", "dojo"],
-  "version": "1.7.0b1edge",
+  "version": "1.7.0b4edge",
   "repository": "git@github.com:agebrock/dojo-node.git",
   "author": "Agebrock <christoph.hagenbrock@googlemail.com>",
   "preferGlobal" : true,
