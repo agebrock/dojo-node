@@ -1,43 +1,33 @@
-require('../index');
+
+/* get som dom */
+var dom = require("dominode").fromString("<html><head></head><body><h1>BETTER</h1></body></html>");
 
 
 
-//dojo without DOM 
-dojo.require('dojox.json.ref');
-console.dir(dojox.json.ref.toJson(dojo.mixin({'foo':'baa'},{'foo2':'baa2'})));
+
+/* get the conflicting "require"  */
+var dojoAmdRequire  = require("dojo-node");
 
 
-//dojo with DOM support 
-dojo.initDocument('<html><head></head><body id="foo2"> <script type="text/javascript">document.write("<h1 class=\'foo\'>Enjoy dojo on Node.js !</h1>")</script>fancy </body></html>')
-dojo.require("dijit/_Widget");
+
+/* or do it the old way */
+var ref = dojo.require("dojox.json.ref")
 
 
-define("dono/Widget",["dijit/_Widget", "dijit/_TemplatedMixin"],function(){
 
-
-       dojo.declare("dono.Widget",[dijit._Widget, dijit._TemplatedMixin],{
-            templateString: '<h3>${headline}</h3>'
-        });
+ dojoAmdRequire(["dojo/Stateful", "dojo/query"],function(Stateful, query){
+ 
+    var obj = new Stateful();
+	obj.watch("dojo", function(d){
+		console.log(d, " is GOOD "," but still getting " , this.get("dojo"));
+	});
+	
+    obj.set("dojo", query("h1")[0].innerHTML);
+ 
 });
 
 
 
-dojo.addOnLoad(function(){
-console.log("LOADED");
-})
-console.log("Fancy ? " + dojo.byId("foo2").innerHTML);
-/**
-take care dojox registers every widget don't mess with your memory 
-clear the registry or reuse widgets ! 
-**/
-
-w = new dono.Widget({headline:"dojo running via Node.js"});
-w.set("headline", "test");
-console.log(w.headline);
-console.log(w.domNode.outerHTML);
 
 
-
-console.log(dojo.query(".foo")[0].innerHTML);
-console.dir(dojo.version);
 
