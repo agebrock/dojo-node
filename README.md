@@ -1,5 +1,11 @@
 # dojo-node
 
+Thanks to ryan-blunden i can burry the branch in a working state :)
+*FIXED broken package.json
+
+
+ 
+
 
 ## previews added
 

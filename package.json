@@ -2,7 +2,7 @@
   "name": "dojo-node",
   "description": "dono",
   "keywords": ["framework", "web", "dojo"],
-  "version": "1.7.0b4edge",
+  "version": "1.7.1",
   "repository": "git@github.com:agebrock/dojo-node.git",
   "author": "Agebrock <christoph.hagenbrock@googlemail.com>",
   "preferGlobal" : true,
@@ -10,7 +10,8 @@
     "htmlparser": ">= 0.0.x",
     "jsdom": ">= 0.2.x",
     "html5": ">= 0.3.x",
-    "winston":">= 0.0.x"
+    "winston":">= 0.0.x",
+    "xmlhttprequest":">= 1.2.x"
     },
   "bin" : { "dojo" : "./bin/dojo.js",
             "doh" : "./bin/doh.js",
