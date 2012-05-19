@@ -1,4 +1,4 @@
-VERSION=release-1.7.1
+VERSION=release-1.7.2
 install:
 	echo "FETCHING DOJO - ${VERSION}"
 	mkdir -p ./src 
