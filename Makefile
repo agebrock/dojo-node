@@ -1,5 +1,5 @@
 VERSION=release-1.7.1
-all:
+install:
 	echo "FETCHING DOJO - ${VERSION}"
 	mkdir -p ./src 
 	mkdir -p ./node_modules 

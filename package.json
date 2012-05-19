@@ -10,7 +10,7 @@
     "dominode": ">= 0.0.1"
   },
   "scripts" : {
-        "install" : "make test"
+        "install" : "make install"
   },
   "main": "index",
   "engines": { "node": ">= 0.4.x" }

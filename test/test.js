@@ -6,7 +6,7 @@ var dom = require("dominode").fromString("<html><head></head><body><h1>BETTER</h
 
 
 /* get the conflicting "require"  */
-var dojoAmdRequire  = require("dojo-node");
+var dojoAmdRequire  = require("../");
 
 
 
