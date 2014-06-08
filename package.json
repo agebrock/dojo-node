@@ -1,17 +1,23 @@
 {
   "name": "dojo-node",
   "description": "dojo on the other side",
-  "keywords": ["framework", "web", "dojo"],
-  "version": "2.172.0",
+  "keywords": [
+    "framework",
+    "web",
+    "dojo"
+  ],
+  "version": "3.0.0",
   "repository": "git@github.com:agebrock/dojo-node.git",
   "author": "Agebrock <christoph.hagenbrock@googlemail.com>",
-  "preferGlobal" : true,
-  "dependencies": {
-    "dominode": ">= 0.0.1"
-  },
-  "scripts" : {
-        "install" : "make install"
-  },
+  "preferGlobal": false,
   "main": "index",
-  "engines": { "node": ">= 0.4.x" }
+  "engines": {
+    "node": ">= 0.4.x"
+  },
+  "devDependencies": {
+    "should": "^4.0.1"
+  },
+  "dependencies": {
+    "dojo": "^1.9.3"
+  }
 }

@@ -1,33 +1,10 @@
-
-/* get som dom */
-var dom = require("dominode").fromString("<html><head></head><body><h1>BETTER</h1></body></html>");
-
+var should = require('should'),
+    d = require('../').dojo;
 
 
-
-/* get the conflicting "require"  */
-var dojoAmdRequire  = require("../");
-
-
-
-/* or do it the old way */
-var ref = dojo.require("dojox.json.ref")
-
-
-
- dojoAmdRequire(["dojo/Stateful", "dojo/query"],function(Stateful, query){
- 
-    var obj = new Stateful();
-	obj.watch("dojo", function(d){
-		console.log(d, " is GOOD "," but still getting " , this.get("dojo"));
-	});
-	
-    obj.set("dojo", query("h1")[0].innerHTML);
- 
+describe('dojo', function(){
+    it('should load in localscope', function(){
+        should.not.exist(global.dojo);
+        should.exist(d.declare);
+    });
 });
-
-
-
-
-
-
