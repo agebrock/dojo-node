@@ -1,12 +1,11 @@
-# dojo-node v.3
+# dojo-node v.4.1.0
 
 #Dojo-Node
 Running dojo on the server as simple as it should be ...
 
 ##Changelog
-Api Changes !
-Dojo source now installed via vanilla npm dependency (dojo v1.9.3)
-Dijit/ Dojox no longer included. 
+* dojo update 1.10
+* minor fixes
 
 ##Features
 ... install dojo using npm
