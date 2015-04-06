@@ -4,7 +4,9 @@ var path = require('path'),
     dojoScope = {
         require: require,
         exports: exports,
-        path: path
+        path: path,
+        setTimeout : setTimeout,
+        setInterval : setInterval,
     };
 
 var context = vm.createContext(dojoScope);
